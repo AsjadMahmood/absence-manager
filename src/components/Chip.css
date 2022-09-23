@@ -1,0 +1,13 @@
+.chip {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 9999px;
+    padding: 4px 8px;
+}
+
+.chip__content {
+    margin-right: 4px;
+}

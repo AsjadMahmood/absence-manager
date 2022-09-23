@@ -1,0 +1,14 @@
+.rounded-full{
+    border-radius: 9999px;
+    width: 48px;
+    height: 48px;
+}
+
+.name-heading{
+    text-align: start;
+    font-size: 1.125rem/* 18px */;
+    line-height: 1.75rem/* 28px */;
+    --tw-text-opacity: 1;
+    color: rgb(38 38 38 / var(--tw-text-opacity));
+    font-weight: 700;
+}
