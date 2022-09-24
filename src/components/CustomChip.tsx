@@ -3,26 +3,22 @@ import './Chip.css';
 
 type PropType = {
     label: string,
-    filled: boolean,
+    isFilled: boolean,
     hasDelete: boolean,
-    handleClick: (e:React.MouseEvent<HTMLDivElement>)=>void
+    handleClick: (e: React.MouseEvent<HTMLDivElement>) => void
+    handleDelete: () => void
 }
 
 export function CustomChip(props: PropType) {
 
-    const handleDelete = ()=>{
-
-    }
-
-
     return (
         <div>
-        <Chip
-            label={props.label}
-            variant={props.filled ?  'filled': 'outlined'}
-            onClick={(e)=>props.handleClick(e)}
-            onDelete={props.hasDelete ? handleDelete : undefined}
-        />
+            <Chip
+                label={props.label}
+                variant={props.isFilled ? 'filled' : 'outlined'}
+                onClick={(e) => props.handleClick(e)}
+                onDelete={props.hasDelete ? () => { props.handleDelete() } : undefined}
+            />
         </div>
 
     )

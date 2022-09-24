@@ -3,26 +3,21 @@ export interface Absence{
     admitterNote: string,
     confirmedAt: Date,
     createdAt: Date,
-    endDate: Date,
+    endDate: string,
     memberNote: string,
     memberName:string,
     memberImage:string,
     rejectedAt: Date,
-    startDate: Date,
+    startDate: string,
     type: AbsenceType,
     userId: number,
 
 }
 
-export interface AbsenceFilterType{
-    type: AbsenceTypeFilter, 
-    absenceStartDate: Date, 
-    absenceEndDate: Date
-}
-
-export enum AbsenceType{
-    Sickness = "sickness",
-    Vocation = "vocation"
+export interface AbsenceFilterParameters{
+    type: AbsenceType | null, 
+    absenceStartDate: string | null, 
+    absenceEndDate: string| null
 }
 
 export enum AbsenceStatus{
@@ -31,10 +26,15 @@ export enum AbsenceStatus{
     Rejected = "Rejected"
 }
 
-export enum AbsenceTypeFilter{
+export enum AbsenceType{
     Sickness = "sickness",
-    Vocation = "vocation",
-    All = "all"
+    Vacation = "vacation",
 }
+
+export enum UserMessageType{
+    NoDataFound = "no data found",
+    SomethingWentWrong = "something went wrong",
+}
+
 
 export const PER_PAGE = 10;

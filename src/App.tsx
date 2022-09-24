@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import './App.css'
-import { AbsenceList } from './pages/AbsentList/AbsenceList'
+import { FilterableAbsenceList } from './pages/FilterableAbsenceList/FilterableAbsenceList'
 
 function App() {
 
   return (
     <div className="App">
-      <AbsenceList/>
+      <FilterableAbsenceList/>
     </div>
   )
 }
