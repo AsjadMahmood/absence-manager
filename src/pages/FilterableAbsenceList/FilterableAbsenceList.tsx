@@ -6,18 +6,20 @@ import Loading from "../../components/Loading";
 import { AbsenceHeader } from "./AbsenceHeader";
 import { AbsenceFilter } from "./AbsenceFilter";
 import { AbsenceList } from "./AbsenceList";
+import moment from "moment";
 
 type StateType = {
-    absenceList ?: Array<Absence>,
+    absenceList? : Array<Absence>,
     absenceFilter: AbsenceFilterParameters,
     loading: boolean
 }
 
 export class FilterableAbsenceList extends React.Component {
 
-    state: StateType = {  loading: true, absenceFilter: { type: null, absenceEndDate: '', absenceStartDate: '' } };
+    state: StateType = { loading: true, absenceFilter: { type: null, absenceEndDate: '', absenceStartDate: '' } };
     itemsPerPage: number = 10;
-    absenceList: Array<Absence> = [];
+    responseDataList: Array<Absence> = [];
+    filtertedList: Array<Absence> = this.applyFilter();
 
     constructor(props: any) {
         super(props);
@@ -25,11 +27,9 @@ export class FilterableAbsenceList extends React.Component {
         this.handleAbsencePeriodFilter = this.handleAbsencePeriodFilter.bind(this);
     }
 
-    
-
     async getData() {
         this.setState({ loading: true });
-        this.absenceList = [];
+        this.responseDataList = [];
         const absencesResponse = await (await fetch('src/api/absences.json', { headers: Headers })).json();
         const memberResponse = await (await fetch('src/api/members.json', { headers: Headers })).json();
 
@@ -50,12 +50,14 @@ export class FilterableAbsenceList extends React.Component {
                         rejectedAt: absence.rejectedAt,
                         type: absence.type
                     };
-                    this.absenceList.push(absenceInstance);
+                    this.responseDataList.push(absenceInstance);
                 }
             })
         })
-        console.log(this.absenceList);
-        this.setState({ loading: false });
+        console.log(this.responseDataList);
+        this.setState({loading: false});
+        //debugger
+        //this.filtertedList = JSON.parse(JSON.stringify(this.responseDataList));    
     }
 
     handleAbsenceTypeFilter(type: AbsenceType | null) {
@@ -65,6 +67,7 @@ export class FilterableAbsenceList extends React.Component {
                 type: type
             }
         }));
+        //this.applyFilter()
     }
 
     handleAbsencePeriodFilter(s: string, e: string) {
@@ -75,11 +78,36 @@ export class FilterableAbsenceList extends React.Component {
                 absenceEndDate: e
             }
         }));
+        //this.applyFilter();
+    }
+
+    applyFilter():Array<Absence>{
+        let tempList:Absence[] = [];
+        if (this.responseDataList.length > 0) {
+            this.responseDataList.forEach((absence: Absence) => {
+                if (this.state.absenceFilter.type && absence.type !== this.state.absenceFilter.type)
+                    return
+                if (this.state.absenceFilter.absenceStartDate && moment(absence.startDate) >= moment(this.state.absenceFilter.absenceStartDate)) {
+                    return
+                }
+                if (this.state.absenceFilter.absenceEndDate && moment(absence.endDate) <= moment(this.state.absenceFilter.absenceEndDate)) {
+                    return
+                }
+                tempList.push(absence);
+            })
+        }
+        return tempList;
     }
 
     componentDidMount(): void {
         this.getData();
     }
+
+    // componentDidUpdate(prevState: Readonly<StateType>,): void {
+
+    //         this.applyFilter();
+
+    // }
 
     render(): React.ReactNode {
         return (
@@ -88,7 +116,7 @@ export class FilterableAbsenceList extends React.Component {
                     <Heading name="Absences List" /><br />
                 </div>
                 <div>
-                    <AbsenceHeader size={this.absenceList.length}>
+                    <AbsenceHeader size={this.applyFilter().length}>
                         <AbsenceFilter absenceFilter={this.state.absenceFilter}
                             handleAbsenceFilterType={this.handleAbsenceTypeFilter}
                             handleAbsencePeriodFilter={this.handleAbsencePeriodFilter} />
@@ -97,7 +125,7 @@ export class FilterableAbsenceList extends React.Component {
                 <div className="row justify-content-center">
                     {!this.state.loading ?
                         <div className="col-md-8">
-                            <AbsenceList absenceList={this.absenceList} absenceFilter={this.state.absenceFilter} 
+                            <AbsenceList absenceList={this.applyFilter()}
                             />
                         </div>
                         : <Loading align="center" />
@@ -106,5 +134,4 @@ export class FilterableAbsenceList extends React.Component {
             </div>
         )
     }
-
 }
