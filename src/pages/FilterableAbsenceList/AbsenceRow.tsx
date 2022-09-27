@@ -1,23 +1,29 @@
+import { DateFormatter } from "../../components/DateFormatter"
 import { UserInfo } from "../../components/UserInfo"
 import { Absence } from "../../models/absent-manager.model"
+import { NormalDateFormat } from "../../utils/helpers"
 
 type PropType = {
     absence: Absence
 }
 
-export function AbsenceRow(props: PropType){
+export function AbsenceRow(props: PropType) {
 
-    return(
+    return (
         <div className="w-100 d-flex justify-content-between align-items-center">
-            <UserInfo  thumbnail={props.absence.memberImage} name={props.absence.memberName} />
+            <UserInfo thumbnail={props.absence.memberImage} name={props.absence.memberName} />
             <div>
-                <mark className="me-1">From</mark>
-                <span>{props.absence.startDate.toString()}</span>
-                <mark className="ms-2 me-1">To</mark>
-                <span>{props.absence.endDate.toString()}</span>
+                <span className="value-text">
+                    <DateFormatter date={props.absence.startDate} format={NormalDateFormat} />
+                </span>
+                <span className="ms-2 me-1"> — </span>
+                <span className="value-text">
+                    <DateFormatter date={props.absence.endDate} format={NormalDateFormat} />
+
+                </span>
             </div>
             <div>
-            <mark>{props.absence.type}</mark>
+                <mark className="text-capitalize">{props.absence.type}</mark>
             </div>
         </div>
     )

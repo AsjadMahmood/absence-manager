@@ -4,7 +4,7 @@ type PropType = {
 
 export function Heading(props:PropType){
     return(
-        <div className='mb-5'>
+        <div className='mb-4'>
           <h1>
             {props.name}
           </h1>

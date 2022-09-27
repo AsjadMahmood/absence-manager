@@ -51,7 +51,7 @@ export function AbsenceFilter(props: PropType) {
     }
 
     return (
-        <div className="d-flex">
+        <div className="d-flex" style={{gap:'0.5rem'}}>
             <div>
                 <CustomChip label="Absence Type" handleClick={onOpenAbsenceTypeFilter}
                     isFilled={absentTypeFilterApplied} hasDelete={absentTypeFilterApplied}
@@ -63,7 +63,7 @@ export function AbsenceFilter(props: PropType) {
                     onClose={() => { setAnchorElForTypeFilter(null) }}
                 >
                     <MenuItem onClick={() => { applyAbsenceTypeFilter(AbsenceType.Vacation) }}>Vacation</MenuItem>
-                    <MenuItem onClick={() => { applyAbsenceTypeFilter(AbsenceType.Sickness) }}>Sickenss</MenuItem>
+                    <MenuItem onClick={() => { applyAbsenceTypeFilter(AbsenceType.Sickness) }}>Sickness</MenuItem>
                 </Menu>
             </div>
             <div>
@@ -79,7 +79,7 @@ export function AbsenceFilter(props: PropType) {
                     <MenuItem onClick={() => { applyAbsenceDateFilter(moment().toString(), moment().subtract(1, 'w').toString()) }}>One Week Ago</MenuItem>
                     <MenuItem onClick={() => { applyAbsenceDateFilter(moment().toString(), moment().subtract(1, 'M').toString()) }}>One Month Ago</MenuItem>
                     <MenuItem onClick={() => { applyAbsenceDateFilter(moment().toString(), moment().subtract(6, 'M').toString()) }}>Six Months Ago</MenuItem>
-                    <MenuItem onClick={() => { applyAbsenceDateFilter(moment().toString(), moment().subtract(2, 'y').toString()) }}>One Year Ago</MenuItem>
+                    <MenuItem onClick={() => { applyAbsenceDateFilter(moment().toString(), moment().subtract(2, 'y').toString()) }}>Two Year Ago</MenuItem>
                     <Divider />
                     <MenuItem disabled={true} onClick={() => { applyAbsenceTypeFilter(AbsenceType.Vacation) }}>Custom Range</MenuItem>
                 </Menu>
